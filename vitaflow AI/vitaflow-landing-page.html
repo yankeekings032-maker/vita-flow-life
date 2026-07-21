@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VitaFlow Life AI — Your life, in balance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0B2027;
+    --paper: #FFFFFF;
+    --mint: #EFF7F4;
+    --teal: #14776D;
+    --teal-deep: #0C5951;
+    --coral: #FF6B4A;
+    --muted: #5B6E71;
+    --line: #E1E8E6;
+    --radius: 20px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, .display {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+  a { text-decoration: none; color: inherit; }
+  img { max-width: 100%; display: block; }
+
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 32px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 76px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-family: 'Fraunces', serif; font-weight: 600; font-size: 20px; }
+  .logo svg { width: 26px; height: 26px; }
+  .nav-links { display: flex; gap: 36px; font-size: 14.5px; font-weight: 500; color: var(--muted); }
+  .nav-cta {
+    background: var(--ink); color: #fff; padding: 11px 22px; border-radius: 100px;
+    font-size: 14px; font-weight: 600;
+  }
+  @media (max-width: 760px) { .nav-links { display: none; } }
+
+  /* ---------- HERO ---------- */
+  .hero { padding: 96px 0 40px; position: relative; overflow: hidden; }
+  .eyebrow {
+    display: inline-block; font-size: 13px; font-weight: 600; color: var(--teal-deep);
+    background: var(--mint); padding: 7px 16px; border-radius: 100px; margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-size: clamp(40px, 6vw, 72px); line-height: 1.04; max-width: 780px;
+  }
+  .hero h1 em { font-style: normal; color: var(--teal); }
+  .hero p.lede {
+    font-size: 19px; color: var(--muted); max-width: 520px; margin: 28px 0 36px; line-height: 1.6;
+  }
+  .hero-ctas { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--ink); color: #fff; padding: 16px 30px; border-radius: 100px;
+    font-weight: 600; font-size: 15.5px; display: inline-block;
+    transition: transform .2s ease;
+  }
+  .btn-primary:hover { transform: translateY(-2px); }
+  .btn-secondary {
+    color: var(--ink); font-weight: 600; font-size: 15px; padding: 16px 8px; display: inline-flex; align-items: center; gap: 8px;
+  }
+
+  /* flow line signature */
+  .flow-row { margin-top: 76px; position: relative; }
+  .flow-svg { width: 100%; height: auto; overflow: visible; }
+  .flow-path {
+    fill: none; stroke: var(--teal); stroke-width: 2.5; stroke-linecap: round;
+    stroke-dasharray: 1400; stroke-dashoffset: 1400;
+    animation: draw 2.2s ease forwards .3s;
+  }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  .flow-node circle { fill: var(--paper); stroke: var(--teal); stroke-width: 2; }
+  .flow-node text { font-family: 'Inter'; font-size: 12px; font-weight: 600; fill: var(--muted); }
+  .flow-node.active circle { fill: var(--coral); stroke: var(--coral); }
+
+  /* ---------- SOCIAL PROOF / STAT STRIP ---------- */
+  .stat-strip { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 44px 0; }
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; text-align: center; }
+  .stat-num { font-size: 34px; font-weight: 600; }
+  .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  @media (max-width: 700px) { .stat-grid { grid-template-columns: repeat(2, 1fr); row-gap: 32px; } }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section { padding: 100px 0; }
+  .section-head { max-width: 600px; margin-bottom: 56px; }
+  .section-head .eyebrow { margin-bottom: 18px; }
+  .section-head h2 { font-size: clamp(30px, 4vw, 42px); line-height: 1.15; }
+  .section-head p { color: var(--muted); font-size: 16.5px; margin-top: 16px; line-height: 1.6; }
+
+  /* ---------- FEATURE GRID ---------- */
+  .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 900px) { .feature-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .feature-grid { grid-template-columns: 1fr; } }
+  .feature-card {
+    background: var(--mint); border-radius: var(--radius); padding: 30px;
+    transition: transform .25s ease;
+  }
+  .feature-card:hover { transform: translateY(-4px); }
+  .feature-icon { font-size: 26px; margin-bottom: 18px; }
+  .feature-card h3 { font-size: 18px; font-weight: 600; font-family: 'Inter'; margin-bottom: 8px; }
+  .feature-card p { color: var(--muted); font-size: 14.5px; line-height: 1.55; margin: 0; }
+
+  /* ---------- SCORE SHOWCASE ---------- */
+  .showcase {
+    background: var(--ink); color: #fff; border-radius: 32px; padding: 72px 56px;
+    display: grid; grid-template-columns: 1fr 380px; gap: 56px; align-items: center;
+  }
+  @media (max-width: 860px) { .showcase { grid-template-columns: 1fr; padding: 48px 28px; } }
+  .showcase h2 { color: #fff; font-size: clamp(28px,3.6vw,38px); line-height: 1.2; }
+  .showcase p { color: #A9BDBE; font-size: 16px; margin-top: 18px; line-height: 1.6; max-width: 440px; }
+  .showcase ul { list-style: none; padding: 0; margin: 28px 0 0; display: flex; flex-direction: column; gap: 12px; }
+  .showcase li { display: flex; gap: 10px; font-size: 14.5px; color: #D7E4E4; }
+  .showcase li::before { content: "→"; color: var(--coral); font-weight: 700; }
+  .ring-card {
+    background: #10282A; border-radius: 24px; padding: 32px; text-align: center;
+    border: 1px solid #1E3E3F;
+  }
+  .ring-svg { margin: 0 auto; }
+  .ring-score { font-family: 'IBM Plex Mono'; font-size: 44px; font-weight: 600; color: #fff; }
+  .ring-label { color: #8FA6A7; font-size: 13px; margin-top: 4px; }
+  .insight-chip {
+    margin-top: 24px; background: #14312F; border-radius: 14px; padding: 14px 16px; text-align: left;
+    font-size: 13px; color: #D7E4E4; line-height: 1.5;
+  }
+  .insight-chip b { color: var(--coral); font-size: 11px; letter-spacing: .06em; display: block; margin-bottom: 6px; }
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 900px) { .testimonial-grid { grid-template-columns: 1fr; } }
+  .testimonial {
+    border: 1px solid var(--line); border-radius: var(--radius); padding: 28px;
+  }
+  .testimonial p.quote { font-family: 'Fraunces'; font-size: 17px; line-height: 1.5; margin-bottom: 20px; }
+  .testimonial .who { font-size: 13px; color: var(--muted); font-weight: 600; }
+
+  /* ---------- PRICING ---------- */
+  .pricing-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  @media (max-width: 760px) { .pricing-grid { grid-template-columns: 1fr; } }
+  .price-card { border: 1px solid var(--line); border-radius: 28px; padding: 40px; }
+  .price-card.featured { background: var(--ink); color: #fff; border: none; position: relative; }
+  .price-card.featured .price-tag-note { color: #A9BDBE; }
+  .price-card .plan-name { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--teal); }
+  .price-card.featured .plan-name { color: var(--coral); }
+  .price-amount { font-family: 'Fraunces'; font-size: 48px; margin: 14px 0 6px; }
+  .price-tag-note { color: var(--muted); font-size: 13.5px; }
+  .price-card ul { list-style: none; padding: 0; margin: 28px 0; display: flex; flex-direction: column; gap: 12px; font-size: 14.5px; }
+  .price-card li::before { content: "✓ "; color: var(--teal); font-weight: 700; }
+  .price-card.featured li::before { color: var(--coral); }
+  .price-btn {
+    display: block; text-align: center; padding: 15px; border-radius: 100px; font-weight: 600;
+    background: var(--ink); color: #fff; font-size: 14.5px;
+  }
+  .price-card.featured .price-btn { background: var(--coral); }
+  .pay-methods { display: flex; gap: 10px; margin-top: 20px; justify-content: center; flex-wrap: wrap; }
+  .pay-chip {
+    font-size: 12px; font-weight: 600; padding: 7px 13px; border-radius: 100px;
+    border: 1px solid var(--line); color: var(--muted);
+  }
+  .price-card.featured .pay-chip { border-color: #2A4A48; color: #A9BDBE; }
+
+  /* ---------- CTA FOOTER ---------- */
+  .cta-band {
+    background: var(--mint); border-radius: 32px; padding: 72px 40px; text-align: center;
+  }
+  .cta-band h2 { font-size: clamp(28px, 4vw, 40px); max-width: 620px; margin: 0 auto 24px; line-height: 1.2; }
+
+  footer { padding: 56px 0 40px; border-top: 1px solid var(--line); margin-top: 60px; }
+  .footer-grid { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 32px; }
+  .footer-links { display: flex; gap: 28px; font-size: 13.5px; color: var(--muted); }
+  .footer-note { font-size: 13px; color: var(--muted); margin-top: 24px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo">
+      <svg viewBox="0 0 32 32" fill="none"><path d="M4 20C8 20 8 12 12 12C16 12 16 24 20 24C24 24 24 8 28 8" stroke="#14776D" stroke-width="3" stroke-linecap="round"/></svg>
+      VitaFlow
+    </div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a class="nav-cta" href="#pricing">Start free trial</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">AI life coaching, grounded in your real data</span>
+    <h1>Every part of your life, <em>flowing</em> in balance.</h1>
+    <p class="lede">
+      VitaFlow connects your mood, sleep, work, money, and relationships into one
+      AI coach that shows you the pattern behind the pattern — then helps you act on it.
+    </p>
+    <div class="hero-ctas">
+      <a class="btn-primary" href="#pricing">Start your 7-day free trial</a>
+      <a class="btn-secondary" href="#how">See how it works ↓</a>
+    </div>
+
+    <div class="flow-row">
+      <svg class="flow-svg" viewBox="0 0 1056 140" preserveAspectRatio="none">
+        <path class="flow-path" d="M20,90 C110,90 110,30 190,30 C270,30 270,110 350,110 C430,110 430,50 510,50 C590,50 590,100 670,100 C750,100 750,40 830,40 C910,40 910,90 1000,90" />
+        <g class="flow-node active"><circle cx="20" cy="90" r="16"/><text x="20" y="130" text-anchor="middle">Health</text></g>
+        <g class="flow-node"><circle cx="190" cy="30" r="16"/><text x="190" y="15" text-anchor="middle">Work</text></g>
+        <g class="flow-node active"><circle cx="350" cy="110" r="16"/><text x="350" y="132" text-anchor="middle">Mental</text></g>
+        <g class="flow-node"><circle cx="510" cy="50" r="16"/><text x="510" y="18" text-anchor="middle">Finance</text></g>
+        <g class="flow-node"><circle cx="670" cy="100" r="16"/><text x="670" y="132" text-anchor="middle">Relationships</text></g>
+        <g class="flow-node active"><circle cx="830" cy="40" r="16"/><text x="830" y="18" text-anchor="middle">Spirit</text></g>
+        <g class="flow-node"><circle cx="1000" cy="90" r="16"/><text x="1000" y="130" text-anchor="middle">Learning</text></g>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<section class="stat-strip">
+  <div class="wrap stat-grid">
+    <div><div class="stat-num mono">7</div><div class="stat-label">life domains, one score</div></div>
+    <div><div class="stat-num mono">60s</div><div class="stat-label">daily check-in</div></div>
+    <div><div class="stat-num mono">0–100</div><div class="stat-label">Life Balance Score</div></div>
+    <div><div class="stat-num mono">24/7</div><div class="stat-label">AI coaching</div></div>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">What VitaFlow does</span>
+      <h2>One coach that actually sees the whole picture.</h2>
+      <p>Most apps track one thing in isolation. VitaFlow connects the dots — so you find out
+      your Tuesday stress spikes are tied to your Monday-night sleep, not just that both exist.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🧭</div>
+        <h3>AI Life Coach</h3>
+        <p>Daily mood and energy analysis, burnout detection, and coaching that adapts to how your week is actually going.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🗓️</div>
+        <h3>Smart Daily Planner</h3>
+        <p>AI-built schedules, deep work blocks, and a built-in Pomodoro timer that protects your focus.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💧</div>
+        <h3>Health Dashboard</h3>
+        <p>Water, sleep, steps, exercise, and weight — plus wearable sync so logging fades into the background.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌱</div>
+        <h3>Mental Wellness</h3>
+        <p>Gratitude journaling, guided breathing, and a mood calendar that shows your patterns at a glance.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💰</div>
+        <h3>Finance Balance</h3>
+        <p>Expense tracking, savings goals, and a financial wellness score that ties money stress to the rest of your life.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🤝</div>
+        <h3>Relationships &amp; Growth</h3>
+        <p>Check-in reminders for people who matter, plus learning and spiritual-practice streaks that stick.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="how">
+  <div class="wrap">
+    <div class="showcase">
+      <div>
+        <span class="eyebrow" style="background:#14312F; color:#8FEBDA;">Your Life Balance Score</span>
+        <h2>Not just data — a reason.</h2>
+        <p>Every score is explainable. No black box: you can see exactly which habits are moving your number, and the AI tells you what's actually connected.</p>
+        <ul>
+          <li>Health, Work, and Mental scores update from your real logs</li>
+          <li>Pattern insights, phrased in plain language, backed by your data</li>
+          <li>Burnout risk flagged early, before it becomes a crisis</li>
+        </ul>
+      </div>
+      <div class="ring-card">
+        <svg class="ring-svg" width="180" height="180" viewBox="0 0 180 180">
+          <circle cx="90" cy="90" r="78" stroke="#1E3E3F" stroke-width="12" fill="none"/>
+          <circle cx="90" cy="90" r="78" stroke="#FF6B4A" stroke-width="12" fill="none"
+            stroke-dasharray="490" stroke-dashoffset="120" stroke-linecap="round" transform="rotate(-90 90 90)"/>
+        </svg>
+        <div class="ring-score">76</div>
+        <div class="ring-label">Life Balance Score</div>
+        <div class="insight-chip">
+          <b>AI INSIGHT</b>
+          Your stress tends to rise on Tuesdays — usually after Monday nights with under 6 hours of sleep.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Built for real life</span>
+      <h2>People juggling more than any one app can hold.</h2>
+    </div>
+    <div class="testimonial-grid">
+      <div class="testimonial">
+        <p class="quote">"I stopped guessing why I was exhausted every Thursday. Turns out it was the pattern, not the day."</p>
+        <div class="who">Busy professional, beta tester</div>
+      </div>
+      <div class="testimonial">
+        <p class="quote">"The 60-second check-in is the only habit-tracker I've ever actually kept doing."</p>
+        <div class="who">Remote worker, beta tester</div>
+      </div>
+      <div class="testimonial">
+        <p class="quote">"It caught my burnout before I did. The recommendation was small enough that I actually did it."</p>
+        <div class="who">Parent &amp; entrepreneur, beta tester</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="pricing">
+  <div class="wrap">
+    <div class="section-head" style="margin-left:auto;margin-right:auto;text-align:center;">
+      <span class="eyebrow">Simple pricing</span>
+      <h2>Start free. Upgrade when the pattern's worth knowing.</h2>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="plan-name">Free</div>
+        <div class="price-amount">$0</div>
+        <div class="price-tag-note">forever</div>
+        <ul>
+          <li>Daily check-in &amp; basic planner</li>
+          <li>Health &amp; mental wellness logging</li>
+          <li>1 AI insight per day</li>
+          <li>Life Balance Score</li>
+        </ul>
+        <a class="price-btn" href="#">Get started</a>
+      </div>
+      <div class="price-card featured">
+        <div class="plan-name">Premium</div>
+        <div class="price-amount">$59.99<span style="font-size:16px;">/yr</span></div>
+        <div class="price-tag-note">or $9.99/month · 7-day free trial</div>
+        <ul>
+          <li>Unlimited AI coaching &amp; insights</li>
+          <li>Personalized meal &amp; workout plans</li>
+          <li>Wearable sync &amp; AI voice coach</li>
+          <li>Full historical analytics</li>
+        </ul>
+        <a class="price-btn" href="#">Start free trial</a>
+        <div class="pay-methods">
+          <span class="pay-chip">Card</span>
+          <span class="pay-chip"> Apple Pay</span>
+          <span class="pay-chip">Google Pay</span>
+          <span class="pay-chip">PayPal</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="wrap">
+    <div class="cta-band">
+      <h2>Your life doesn't run in one lane. Your coach shouldn't either.</h2>
+      <a class="btn-primary" href="#pricing">Start your 7-day free trial</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-grid">
+    <div class="logo">
+      <svg viewBox="0 0 32 32" fill="none"><path d="M4 20C8 20 8 12 12 12C16 12 16 24 20 24C24 24 24 8 28 8" stroke="#14776D" stroke-width="3" stroke-linecap="round"/></svg>
+      VitaFlow Life AI
+    </div>
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Support</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+  <div class="wrap footer-note">© 2026 VitaFlow Life AI. Not a substitute for professional medical, mental health, or financial advice.</div>
+</footer>
+
+</body>
+</html>
